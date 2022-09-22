@@ -1,29 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
-
 import React from 'react'
 import { init, useConnectWallet } from '@web3-onboard/react'
 import injectedModule from '@web3-onboard/injected-wallets'
 import magicModule from '@web3-onboard/magic'
 import trezorModule from '@web3-onboard/trezor'
-import ledgerModule from '@web3-onboard/ledger'
 import coinbaseWalletModule from '@web3-onboard/coinbase'
-
-
 import { ethers } from 'ethers'
 
 const injected = injectedModule()
-const magic = magicModule()
-const trezor = trezorModule()
-const ledger = ledgerModule()
+//const magic = magicModule()
+const trezor = trezorModule({
+  email: '<EMAIL_CONTACT>',
+  appUrl: '<APP_URL>'
+})
 const coinbase = coinbaseWalletModule()
 
-const rpcApiKey = '<ALCHEMY_KEY>' || '<INFURA_KEY>'
-const rpcUrl = `https://eth-mainnet.g.alchemy.com/v2/${rpcApiKey}` || `https://mainnet.infura.io/v3/${rpcApiKey}`
+const rpcApiKey = 'fxX2OnBfP4z4eLrSGYqf5mOUIlDMyBGN'
+const rpcUrl = `https://eth-mainnet.g.alchemy.com/v2/${rpcApiKey}`
 
 // initialize Onboard
 init({
-  wallets: [injected,magic,trezor,ledger,coinbase],
+  wallets: [injected,trezor,coinbase],
   chains: [
     {
       id: '0x1',
@@ -45,12 +42,12 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='screen_height'>
       <button
         disabled={connecting}
         onClick={() => (wallet ? disconnect() : connect())}
       >
-        {connecting ? 'connecting' : wallet ? 'disconnect' : 'connect'}
+        {connecting ? 'Connecting to wallet' : wallet ? 'Disconnect wallet' : 'Connect Wallet'}
       </button>
     </div>
   )
